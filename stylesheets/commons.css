@@ -1,0 +1,124 @@
+/* Substrate Commons — a warm, open, light theme. Deliberately the opposite of dmrai-lab's edgy dark:
+   cream paper, a fresh commons-green + sunlit amber, humanist Newsreader/Inter type, generous air. */
+@import url("https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
+
+:root {
+  --sc-paper:     #fbf8f0;   /* warm cream */
+  --sc-paper2:    #f4efe2;   /* sunk panels */
+  --sc-card:      #ffffff;
+  --sc-ink:       #23201a;   /* warm near-black */
+  --sc-muted:     #6f695b;
+  --sc-border:    #e7dfcd;
+  --sc-green:     #1f8a5b;   /* commons / open field — primary */
+  --sc-green-d:   #16704a;
+  --sc-amber:     #cf8a1e;   /* sunlight / generosity — secondary */
+  --sc-sky:       #4a86c7;   /* open sky — tertiary accent */
+  --md-text-font:  "Inter";
+  --md-code-font:  "JetBrains Mono";
+}
+
+/* ---- map Material's LIGHT scheme onto the warm palette ---- */
+[data-md-color-scheme="default"] {
+  --md-default-bg-color:          var(--sc-paper);
+  --md-default-fg-color:          var(--sc-ink);
+  --md-default-fg-color--light:   var(--sc-muted);
+  --md-default-fg-color--lighter: rgba(111,105,91,0.55);
+  --md-default-fg-color--lightest: rgba(111,105,91,0.18);
+  --md-typeset-color:             var(--sc-ink);
+  --md-typeset-a-color:           var(--sc-green);
+  --md-accent-fg-color:           var(--sc-amber);
+  --md-primary-fg-color:          var(--sc-paper);   /* header bg = paper (airy) */
+  --md-primary-fg-color--dark:    var(--sc-paper2);
+  --md-primary-bg-color:          var(--sc-ink);     /* header text = ink */
+  --md-primary-bg-color--light:   var(--sc-muted);
+  --md-code-bg-color:             #f6f1e6;
+  --md-code-fg-color:             #3a352b;
+  --md-footer-bg-color:           #211d16;
+  --md-footer-bg-color--dark:     #17140f;
+}
+
+/* ---- type: humanist + warm, unlike the family's mono ---- */
+body, .md-typeset { font-family: "Inter", system-ui, sans-serif; font-size: .82rem; line-height: 1.75; }
+.md-typeset h1, .md-typeset h2, .md-typeset h3, .md-typeset h4,
+.md-header__title, .md-nav__title, .md-ellipsis {
+  font-family: "Newsreader", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.md-typeset h1 { font-weight: 500; font-size: 2.35rem; line-height: 1.15; letter-spacing: -.01em; margin-bottom: .4em; }
+.md-typeset h2 { font-weight: 500; font-size: 1.55rem; margin-top: 2.2em; }
+.md-typeset h3 { font-weight: 500; font-size: 1.18rem; }
+.md-typeset .sc-lede { font-family: "Newsreader", serif; font-size: 1.28rem; line-height: 1.55; color: var(--sc-ink); font-weight: 300; }
+.md-typeset .sc-lede em { color: var(--sc-green-d); font-style: italic; }
+
+/* ---- header + tabs: airy paper, green active tab ---- */
+.md-header { border-bottom: 1px solid var(--sc-border); box-shadow: none; color: var(--sc-ink); }
+.md-header--shadow { box-shadow: 0 1px 0 var(--sc-border); }
+.md-tabs { background: transparent; color: var(--sc-ink); border-bottom: 1px solid var(--sc-border); }
+.md-tabs__link { opacity: .72; font-weight: 500; }
+.md-tabs__link:hover { opacity: 1; color: var(--sc-green-d); }
+.md-tabs__link--active { opacity: 1; color: var(--sc-green-d); }
+.md-search__form { background: var(--sc-paper2); border: 1px solid var(--sc-border); border-radius: 999px; }
+.md-search__input::placeholder { color: var(--sc-muted); }
+
+/* ---- warm dawn wash behind the header/hero, evoking open sky ---- */
+.md-main { position: relative; }
+.md-main::before {
+  content: ''; position: absolute; inset: 0 0 auto 0; height: 420px; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(120% 90% at 15% -10%, rgba(31,138,91,.10), transparent 55%),
+    radial-gradient(120% 90% at 90% -20%, rgba(207,138,30,.12), transparent 55%);
+}
+.md-content { position: relative; z-index: 1; }
+
+/* ---- links: friendly, warm underline ---- */
+.md-typeset a { text-decoration: none; border-bottom: 1px solid rgba(31,138,91,.35); transition: border-color .15s, color .15s; }
+.md-typeset a:hover { color: var(--sc-amber); border-bottom-color: var(--sc-amber); }
+.md-nav__link--active, .md-nav__item--active > .md-nav__link { color: var(--sc-green-d); }
+
+/* ---- code + rules ---- */
+.md-typeset code { border: 1px solid var(--sc-border); border-radius: 5px; }
+.md-typeset pre > code { border: 1px solid var(--sc-border); border-radius: 10px; }
+.md-typeset hr { border-bottom: 1px solid var(--sc-border); margin: 2.2em 0; }
+
+/* ---- admonitions: soft, rounded, warm ---- */
+.md-typeset .admonition, .md-typeset details {
+  border: 1px solid var(--sc-border); border-radius: 12px; background: var(--sc-card);
+  box-shadow: 0 1px 2px rgba(35,32,26,.04); font-size: .8rem;
+}
+.md-typeset .admonition.tip > .admonition-title, .md-typeset .admonition.success > .admonition-title { background: rgba(31,138,91,.10); }
+.md-typeset .admonition.note > .admonition-title, .md-typeset .admonition.quote > .admonition-title { background: rgba(74,134,199,.10); }
+.md-typeset .admonition.warning > .admonition-title, .md-typeset .admonition.example > .admonition-title { background: rgba(207,138,30,.12); }
+
+/* ---- grid cards: the open, generous layout ---- */
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid > .sc-card {
+  border: 1px solid var(--sc-border); border-radius: 14px; background: var(--sc-card);
+  padding: 1.1rem 1.15rem; box-shadow: 0 1px 3px rgba(35,32,26,.05); transition: transform .18s, box-shadow .18s, border-color .18s;
+}
+.md-typeset .grid.cards > ul > li:hover,
+.md-typeset .grid > .sc-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(35,32,26,.10); border-color: rgba(31,138,91,.4); }
+.md-typeset .grid.cards > ul > li > hr { margin: .7em 0; }
+
+/* ---- hero ---- */
+.sc-hero { display: grid; grid-template-columns: 1.05fr .95fr; gap: 2rem; align-items: center; margin: .6rem 0 1.2rem; }
+.sc-hero .sc-eyebrow { font-family: "Inter"; font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--sc-green-d); font-weight: 600; }
+.sc-hero h1 { font-size: 2.9rem; margin: .35rem 0 .1rem; }
+.sc-hero svg { width: 100%; height: auto; }
+@media (max-width: 76.25em) { .sc-hero { grid-template-columns: 1fr; } .sc-hero .sc-art { order: -1; max-width: 460px; } }
+
+/* ---- pills / call-to-action buttons ---- */
+.md-typeset .sc-cta { display: inline-flex; gap: .5rem; flex-wrap: wrap; margin-top: 1rem; }
+.md-typeset .sc-btn { border: 1px solid var(--sc-green); background: var(--sc-green); color: #fff; border-radius: 999px; padding: .5rem 1.1rem; font-weight: 500; font-size: .78rem; }
+.md-typeset .sc-btn:hover { background: var(--sc-green-d); border-color: var(--sc-green-d); color: #fff; }
+.md-typeset .sc-btn--ghost { background: transparent; color: var(--sc-green-d); }
+.md-typeset .sc-btn--ghost:hover { background: rgba(31,138,91,.08); color: var(--sc-green-d); }
+
+/* ---- footer: a warm dusk to close ---- */
+.md-footer-meta { background: #17140f; }
+.md-footer { color: #d8d0be; }
+
+/* generous content column, airy */
+.md-grid { max-width: 60rem; }
+.md-typeset table:not([class]) { border: 1px solid var(--sc-border); border-radius: 10px; overflow: hidden; font-size: .76rem; }
+.md-typeset table:not([class]) th { background: var(--sc-paper2); font-family: "Inter"; font-weight: 600; }
