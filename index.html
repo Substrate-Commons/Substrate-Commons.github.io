@@ -688,11 +688,14 @@
     <p class="vision-body">The commons only works if contribution is <em>attributable</em>. So every
       contributor signs the shard they submit &mdash; an Ed25519 signature over the shard's content
       hash, recorded in the pack's <b>manifest</b>, never mixed into the trajectory data itself. The
-      physics stays untouched and byte-identical; the provenance rides alongside it. From those
-      signatures the bank knows exactly who walked how many walkers into which substrate &mdash; and
-      credits them, by name, on the solved substrate. Not as authors of the work you did with it, but
-      as <b>contributors</b> to the resource: a permanent, verifiable receipt for having helped build
-      a piece of the commons that will outlast any one paper.</p>
+      physics stays untouched and byte-identical; the provenance rides alongside it. The signing key
+      is unforgeable, but a name is not &mdash; so <b>named</b> credit requires registering your
+      public key once, via a pull request to the <code>contributors/</code> registry, exactly like an
+      SSH or commit-signing key. GitHub authenticates the PR author, so no one can put your name next
+      to their key. From there the bank knows exactly who walked how many walkers into which
+      substrate &mdash; and credits them, by name, on the solved substrate. Not as authors of the work
+      you did with it, but as <b>contributors</b> to the resource: a permanent, verifiable receipt for
+      having helped build a piece of the commons that will outlast any one paper.</p>
 
     <div class="packages reveal">
       <div class="pkg">
@@ -701,6 +704,14 @@
         <div class="pkg-desc">The signature covers the shard's content hash and sits in the manifest.
           Replay is untouched and reproducible; anyone can verify a shard against its signer's public key.</div>
         <div class="pkg-tags"><span class="tag">Ed25519</span><span class="tag">verifiable</span></div>
+      </div>
+      <div class="pkg">
+        <div class="pkg-badge active">register</div>
+        <div class="pkg-name">Claim your key by PR</div>
+        <div class="pkg-desc">Register your public key under your GitHub handle in
+          <code>contributors/</code>. GitHub authenticates the PR author, so a name can't be
+          impersonated &mdash; unregistered keys still count, but only under their fingerprint.</div>
+        <div class="pkg-tags"><span class="tag">registry</span><span class="tag">no impersonation</span></div>
       </div>
       <div class="pkg">
         <div class="pkg-badge active">count</div>
