@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Substrate Commons — a permanent, federated Monte-Carlo replay resource</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,400;0,9..144,700;1,9..144,200;1,9..144,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #07090f;
+      --bg2:       #0d1120;
+      --surface:   #111827;
+      --border:    rgba(255,255,255,0.07);
+      --accent:    #4af0c4;
+      --accent2:   #7b9cff;
+      --text:      #e8edf5;
+      --muted:     #7a8499;
+      --mono:      'DM Mono', monospace;
+      --serif:     'Fraunces', Georgia, serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    .glow-bg {
+      position: fixed;
+      top: -30vh;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120vw;
+      height: 80vh;
+      background: radial-gradient(ellipse at 50% 0%, rgba(74,240,196,0.07) 0%, rgba(123,156,255,0.05) 40%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 4rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo { display: flex; align-items: baseline; gap: 0.5rem; }
+
+    .logo-name {
+      font-family: var(--mono);
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+    }
+
+    .logo-tag { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.1em; }
+
+    nav { display: flex; gap: 2.5rem; }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    nav a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 10;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 7rem 4rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.1s forwards;
+    }
+
+    .hero-eyebrow span {
+      display: inline-block;
+      width: 2rem;
+      height: 1px;
+      background: var(--accent);
+      vertical-align: middle;
+      margin-right: 0.75rem;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 200;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.25s forwards;
+    }
+
+    h1 em { font-style: italic; color: var(--accent); font-weight: 200; }
+    h1 .dim { color: var(--muted); }
+
+    .hero-sub {
+      font-size: 0.92rem;
+      color: var(--muted);
+      max-width: 580px;
+      line-height: 1.9;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.4s forwards;
+    }
+
+    .hero-cta {
+      margin-top: 3.5rem;
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.55s forwards;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary { background: var(--accent); color: #07090f; font-weight: 500; }
+    .btn-primary:hover { background: #6ff5d0; transform: translateY(-1px); }
+    .btn-ghost { border: 1px solid var(--border); color: var(--muted); }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      position: relative;
+      z-index: 10;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 4rem;
+    }
+
+    .divider hr { border: none; border-top: 1px solid var(--border); }
+
+    /* ── SECTIONS ── */
+    .section {
+      position: relative;
+      z-index: 10;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 6rem 4rem;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 3.5rem;
+    }
+
+    /* ── PACKAGES ── */
+    .packages {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .pkg {
+      background: var(--bg);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+
+    .pkg:hover { background: var(--bg2); }
+
+    .pkg::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--accent);
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform 0.3s;
+    }
+
+    .pkg:nth-child(2)::before { background: var(--accent2); }
+    .pkg:nth-child(3)::before { background: var(--accent2); }
+    .pkg:nth-child(4)::before { background: var(--accent); }
+    .pkg:hover::before { transform: scaleY(1); }
+
+    .pkg-badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .pkg-badge.active {
+      border-color: rgba(74,240,196,0.3);
+      color: var(--accent);
+      background: rgba(74,240,196,0.05);
+    }
+
+    .pkg-badge.wip {
+      border-color: rgba(123,156,255,0.3);
+      color: var(--accent2);
+      background: rgba(123,156,255,0.05);
+    }
+
+    .pkg-name { font-family: var(--mono); font-size: 1.15rem; font-weight: 500; color: var(--text); margin-bottom: 0.5rem; }
+    .pkg-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.75; margin-bottom: 1.5rem; }
+    .pkg-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      background: rgba(255,255,255,0.04);
+      padding: 0.15rem 0.5rem;
+      border-radius: 2px;
+    }
+
+    /* ── TABS ── */
+    .manifesto {
+      position: relative;
+      z-index: 10;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 6rem 4rem;
+    }
+
+    .tab-bar {
+      display: flex;
+      border: 1px solid var(--border);
+      border-bottom: none;
+      width: fit-content;
+    }
+
+    .tab-btn {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: transparent;
+      border: none;
+      border-right: 1px solid var(--border);
+      padding: 0.65rem 1.4rem;
+      cursor: pointer;
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .tab-btn:last-child { border-right: none; }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--accent); background: rgba(74,240,196,0.05); }
+
+    .tab-panels {
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tab-panels::after {
+      content: '';
+      position: absolute;
+      bottom: -4rem; right: -4rem;
+      width: 16rem; height: 16rem;
+      background: radial-gradient(circle, rgba(74,240,196,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .tab-panel { display: none; padding: 3.5rem; }
+    .tab-panel.active { display: block; }
+
+    /* Vision panel */
+    .tab-panel blockquote {
+      font-family: var(--serif);
+      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+      font-weight: 200;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--text);
+      max-width: 640px;
+      margin-bottom: 2rem;
+    }
+
+    .tab-panel blockquote strong {
+      font-style: normal;
+      font-weight: 400;
+      color: var(--accent);
+    }
+
+    .vision-body {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.9;
+      max-width: 600px;
+    }
+
+    /* Manifesto panel */
+    .manifesto-content { max-width: 660px; }
+
+    .manifesto-meta {
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .manifesto-meta strong { color: var(--accent); }
+
+    .manifesto-section { margin-bottom: 2.5rem; }
+
+    .manifesto-section h3 {
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--text);
+      margin-bottom: 1rem;
+      line-height: 1.35;
+    }
+
+    .manifesto-section p {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.95;
+      margin-bottom: 0.9rem;
+    }
+
+    .manifesto-section p:last-child { margin-bottom: 0; }
+
+    .manifesto-pull {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      font-style: italic;
+      font-weight: 200;
+      color: var(--text);
+      border-left: 2px solid var(--accent);
+      padding-left: 1.5rem;
+      margin: 2rem 0;
+      line-height: 1.6;
+    }
+
+    .manifesto-footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .manifesto-footer a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .manifesto-footer a:hover { color: var(--accent); }
+
+    /* ── COLLABORATORS ── */
+    .collab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .collab-item { background: var(--bg); padding: 1.75rem 2rem; transition: background 0.2s; }
+    .collab-item:hover { background: var(--bg2); }
+    .collab-name { font-size: 0.88rem; font-weight: 500; color: var(--text); margin-bottom: 0.2rem; }
+    .collab-inst { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.04em; }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 10;
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-left { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.06em; }
+    .footer-links { display: flex; gap: 1.5rem; }
+
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── HERO IMAGE ── */
+    .hero-text { /* left column */ }
+
+    .hero-image {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      opacity: 0;
+      animation: fadeUp 1s 0.6s forwards;
+    }
+
+    .hero-image img {
+      width: 100%;
+      max-width: 520px;
+      mix-blend-mode: screen;
+      filter: saturate(1.1) brightness(0.95);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      header { padding: 1.5rem; }
+      nav { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 4rem 1.5rem 3rem; }
+      .hero-image { justify-content: center; }
+      .hero-image img { max-width: 320px; }
+      .section, .manifesto, .divider { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .packages { grid-template-columns: 1fr; }
+      footer { padding: 2rem 1.5rem; flex-direction: column; }
+      .tab-panel { padding: 2rem; }
+      .tab-btn { padding: 0.6rem 1rem; font-size: 0.65rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-bg"></div>
+
+  <header>
+    <div class="logo">
+      <span class="logo-name">substrate·commons</span>
+      <span class="logo-tag">a permanent replay resource</span>
+    </div>
+    <nav>
+      <a href="#ir">The IR</a>
+      <a href="#commons">The Commons</a>
+      <a href="#credit">Signed shards</a>
+      <a href="#layers">Layers</a>
+      <a href="https://github.com/Substrate-Commons" target="_blank">GitHub</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-text">
+      <div class="hero-eyebrow"><span></span>Monte-Carlo, made permanent</div>
+      <h1>Walk once.<br>Replay forever.</h1>
+      <p class="hero-sub">A substrate is a mesh. A simulator walks it. We freeze that walk &mdash;
+        trajectories, boundary contact, and the susceptibility field &mdash; into a compact
+        <b>replay pack</b> (<code>.rpk</code>): a <em>lossless bottleneck</em> of the Monte-Carlo
+        process, from which <em>any</em> acquisition decodes instantly. And because the walks are
+        additive, anyone can contribute &mdash; the error bars only ever go down.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="https://github.com/dmrai-lab/replay-pack-spec" target="_blank">Read the .rpk spec &rarr;</a>
+        <a class="btn btn-ghost" href="#commons">How to contribute</a>
+      </div>
+    </div>
+
+    <div class="hero-image">
+      <svg viewBox="0 0 460 380" width="100%" xmlns="http://www.w3.org/2000/svg" aria-label="The replay-pack bottleneck: many inputs and simulators collapse to one .rpk, from which every acquisition decodes.">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#4af0c4"/><stop offset="1" stop-color="#7b9cff"/>
+          </linearGradient>
+        </defs>
+        <!-- converging (inputs -> core) -->
+        <g stroke="#4af0c4" stroke-opacity="0.28" fill="none">
+          <path d="M138 74 C 180 74, 180 172, 205 182"/>
+          <path d="M138 172 C 180 172, 185 178, 205 182"/>
+          <path d="M138 270 C 180 270, 180 192, 205 190"/>
+        </g>
+        <!-- diverging (core -> outputs) -->
+        <g stroke="#7b9cff" stroke-opacity="0.28" fill="none">
+          <path d="M255 182 C 290 182, 290 56, 322 56"/>
+          <path d="M255 184 C 290 184, 290 118, 322 118"/>
+          <path d="M255 186 C 290 186, 290 180, 322 180"/>
+          <path d="M255 188 C 290 188, 290 242, 322 242"/>
+          <path d="M255 190 C 290 190, 290 304, 322 304"/>
+        </g>
+        <!-- input nodes -->
+        <g font-family="'DM Mono',monospace" font-size="11" fill="#e8edf5">
+          <g><rect x="8" y="58" width="130" height="32" rx="7" fill="#111827" stroke="rgba(255,255,255,.09)"/><text x="73" y="78" text-anchor="middle">geometry &middot; .ply</text></g>
+          <g><rect x="8" y="156" width="130" height="32" rx="7" fill="#111827" stroke="rgba(255,255,255,.09)"/><text x="73" y="176" text-anchor="middle" fill="#4af0c4">dmipy-sim walk</text></g>
+          <g><rect x="8" y="254" width="130" height="32" rx="7" fill="#111827" stroke="rgba(255,255,255,.09)"/><text x="73" y="274" text-anchor="middle" fill="#4af0c4">MC-DC walk</text></g>
+        </g>
+        <!-- the bottleneck: .rpk core -->
+        <g>
+          <rect x="203" y="162" width="54" height="40" rx="20" fill="url(#g)"/>
+          <text x="230" y="187" text-anchor="middle" font-family="'DM Mono',monospace" font-size="13" font-weight="500" fill="#07090f">.rpk</text>
+          <text x="230" y="228" text-anchor="middle" font-family="'DM Mono',monospace" font-size="9" fill="#7a8499" letter-spacing="1">the IR</text>
+        </g>
+        <!-- output nodes -->
+        <g font-family="'DM Mono',monospace" font-size="11" fill="#e8edf5">
+          <g><rect x="322" y="40" width="130" height="32" rx="7" fill="#111827" stroke="rgba(255,255,255,.09)"/><text x="387" y="60" text-anchor="middle">PGSE &middot; OGSE &middot; STE</text></g>
+          <g><rect x="322" y="102" width="130" height="32" rx="7" fill="#111827" stroke="rgba(255,255,255,.09)"/><text x="387" y="122" text-anchor="middle">any b, &Delta;, &delta;</text></g>
+          <g><rect x="322" y="164" width="130" height="32" rx="7" fill="#111827" stroke="rgba(255,255,255,.09)"/><text x="387" y="184" text-anchor="middle">any B&#8320; &middot; &chi;</text></g>
+          <g><rect x="322" y="226" width="130" height="32" rx="7" fill="#111827" stroke="rgba(255,255,255,.09)"/><text x="387" y="246" text-anchor="middle">T&#8322; &middot; T&#8321; &middot; &rho;</text></g>
+          <g><rect x="322" y="288" width="130" height="32" rx="7" fill="#111827" stroke="rgba(255,255,255,.09)"/><text x="387" y="308" text-anchor="middle">MT &middot; Z-spectrum</text></g>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── THE IR ── -->
+  <section class="section" id="ir">
+    <div class="section-label">The intermediate representation</div>
+    <h2>One walk, every acquisition.</h2>
+    <p class="vision-body">Producing a converged random walk through realistic microstructure is the
+      expensive step; evaluating a pulse sequence against a <em>stored</em> walk is nearly free. So
+      the useful unit is not a signal &mdash; it is the walk itself. The replay pack is the lossless
+      bottleneck between the two: everything upstream (which mesher, which simulator, how many spins)
+      collapses into it, and everything downstream (which sequence, which field, which contrast)
+      decodes out of it &mdash; with no re-simulation, ever.</p>
+
+    <div class="packages reveal">
+      <div class="pkg">
+        <div class="pkg-badge active">in</div>
+        <div class="pkg-name">Geometry</div>
+        <div class="pkg-desc">An open mesh &mdash; <code>.ply</code> or equivalent. Realistic axons, spheres,
+          crossings, whatever you can triangulate. The substrate carries its own intrinsic orientation frame,
+          so gradients and B&#8320; are defined <em>relative to the fibre</em>, not the lab.</div>
+        <div class="pkg-tags"><span class="tag">.ply</span><span class="tag">open</span></div>
+      </div>
+      <div class="pkg">
+        <div class="pkg-badge active">walk</div>
+        <div class="pkg-name">Simulate</div>
+        <div class="pkg-desc">Any engine that speaks the format walks the geometry &mdash; <b>dmipy-sim</b>,
+          <b>MC-DC</b>, your own. It records trajectories, boundary local-time, and the substrate's
+          susceptibility field. The engine is interchangeable; the walk is what matters.</div>
+        <div class="pkg-tags"><span class="tag">dmipy-sim</span><span class="tag">MC-DC</span></div>
+      </div>
+      <div class="pkg">
+        <div class="pkg-badge active">encode</div>
+        <div class="pkg-name">Replay pack</div>
+        <div class="pkg-desc">Trajectories + boundary contact + field basis are frozen into <code>.rpk</code>,
+          in capability tiers &mdash; C0 gradient, C1 relaxation, C2 surface, C3 field, C4 MT. Losslessly, so
+          the replay reproduces the original simulation to the Monte-Carlo floor.</div>
+        <div class="pkg-tags"><span class="tag">C0&ndash;C4</span><span class="tag">lossless</span></div>
+      </div>
+      <div class="pkg">
+        <div class="pkg-badge active">out</div>
+        <div class="pkg-name">Decode</div>
+        <div class="pkg-desc">Point <em>any</em> acquisition at the pack &mdash; PGSE, OGSE, arbitrary b/&Delta;/&delta;,
+          any B&#8320; and susceptibility, T&#8321;/T&#8322;/&rho;, MT Z-spectra &mdash; and read the signal back
+          instantly. One walk answers questions it was never specifically run for.</div>
+        <div class="pkg-tags"><span class="tag">instant</span><span class="tag">any sequence</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── THE COMMONS ── -->
+  <section class="section" id="commons">
+    <div class="section-label">The federated commons</div>
+    <h2>Error bars that only fall.</h2>
+    <p class="vision-body">Monte-Carlo shards are <b>additive and commutative</b>: independent walks of
+      the same substrate pool into one larger ensemble, in any order, and the noise floor drops as
+      1/&radic;&Sigma;N. That turns a substrate into a shared, crowd-generatable resource. Publish a
+      first shard; anyone with spare compute &mdash; a laptop, a free Kaggle GPU, a spot VM &mdash; can
+      lower its error bars. Nothing regresses. When a substrate's measured floor clears its target,
+      it is <em>frozen</em>, snapshotted, and citable &mdash; a permanent, converged answer the whole
+      field can reuse instead of re-running.</p>
+
+    <div class="packages reveal">
+      <div class="pkg">
+        <div class="pkg-badge active">1</div>
+        <div class="pkg-name">Contribute</div>
+        <div class="pkg-desc">Any box with the engine self-assigns a random seed, walks a shard, and
+          submits it to the target's <b>inbox</b>. No orchestrator has to be running &mdash; the store is
+          passive, contributions are asynchronous.</div>
+        <div class="pkg-tags"><span class="tag">seedless</span><span class="tag">async</span></div>
+      </div>
+      <div class="pkg">
+        <div class="pkg-badge active">2</div>
+        <div class="pkg-name">QA &amp; pool</div>
+        <div class="pkg-desc">A consistency gate checks each inbox shard against the contract and the
+          existing pool, promotes the good ones, and quarantines outliers. Pooling is exact:
+          spin-weighted averaging of complex signals.</div>
+        <div class="pkg-tags"><span class="tag">consistency-z</span><span class="tag">exact</span></div>
+      </div>
+      <div class="pkg">
+        <div class="pkg-badge active">3</div>
+        <div class="pkg-name">Freeze &amp; cite</div>
+        <div class="pkg-desc">When the floor clears &sigma;*, the pool merges into one
+          <code>complete.rpk</code> plus a Zenodo-ready snapshot. The DOI is minted by a human &mdash;
+          a deliberate gate, not an automated one.</div>
+        <div class="pkg-tags"><span class="tag">frozen</span><span class="tag">DOI</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── SIGNED SHARDS / CREDIT ── -->
+  <section class="section" id="credit">
+    <div class="section-label">Signed shards &amp; contributor credit</div>
+    <h2>A receipt for the compute you gave.</h2>
+    <p class="vision-body">The commons only works if contribution is <em>attributable</em>. So every
+      contributor signs the shard they submit &mdash; an Ed25519 signature over the shard's content
+      hash, recorded in the pack's <b>manifest</b>, never mixed into the trajectory data itself. The
+      physics stays untouched and byte-identical; the provenance rides alongside it. From those
+      signatures the bank knows exactly who walked how many walkers into which substrate &mdash; and
+      credits them, by name, on the solved substrate. Not as authors of the work you did with it, but
+      as <b>contributors</b> to the resource: a permanent, verifiable receipt for having helped build
+      a piece of the commons that will outlast any one paper.</p>
+
+    <div class="packages reveal">
+      <div class="pkg">
+        <div class="pkg-badge active">sign</div>
+        <div class="pkg-name">In the manifest, not the data</div>
+        <div class="pkg-desc">The signature covers the shard's content hash and sits in the manifest.
+          Replay is untouched and reproducible; anyone can verify a shard against its signer's public key.</div>
+        <div class="pkg-tags"><span class="tag">Ed25519</span><span class="tag">verifiable</span></div>
+      </div>
+      <div class="pkg">
+        <div class="pkg-badge active">count</div>
+        <div class="pkg-name">Walkers, tracked</div>
+        <div class="pkg-desc">Signed shards make the seed ledger a ledger of <em>people</em>: who
+          contributed how many walkers to each target, tamper-evidently, across every machine that ever joined.</div>
+        <div class="pkg-tags"><span class="tag">ledger</span><span class="tag">per-contributor</span></div>
+      </div>
+      <div class="pkg">
+        <div class="pkg-badge active">credit</div>
+        <div class="pkg-name">Named on what you built</div>
+        <div class="pkg-desc">Contributors are listed on the frozen substrate and in its citation
+          metadata &mdash; a durable receipt that travels with the DOI, for compute given to a permanent resource.</div>
+        <div class="pkg-tags"><span class="tag">contributors</span><span class="tag">citable</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── LAYERS ── -->
+  <section class="section" id="layers">
+    <div class="section-label">Three layers, one direction</div>
+    <h2>A contract, an engine, a commons.</h2>
+    <p class="vision-body">Dependencies flow one way and never back. The <b>format</b> is a contract
+      anyone can implement; the <b>engine</b> walks and replays it; the <b>commons</b> federates it.
+      Each layer is useful on its own.</p>
+
+    <div class="packages reveal">
+      <div class="pkg">
+        <div class="pkg-badge active">spec</div>
+        <div class="pkg-name">replay-pack-spec</div>
+        <div class="pkg-desc">The open <code>.rpk</code> file contract &mdash; the replay invariant,
+          capability tiers, and the substrate frame. Simulator-agnostic; the stable thing everything
+          else is built on.</div>
+        <div class="pkg-tags"><span class="tag"><a href="https://github.com/dmrai-lab/replay-pack-spec" target="_blank">spec &rarr;</a></span></div>
+      </div>
+      <div class="pkg">
+        <div class="pkg-badge active">engine</div>
+        <div class="pkg-name">dmipy-sim</div>
+        <div class="pkg-desc">The reference engine: walk a substrate, replay a pack, read/write
+          <code>.rpk</code>. It has no opinion about banks or DOIs &mdash; a public engine means a public
+          walker anyone can run.</div>
+        <div class="pkg-tags"><span class="tag"><a href="https://dmipy.org" target="_blank">dmipy.org &rarr;</a></span></div>
+      </div>
+      <div class="pkg">
+        <div class="pkg-badge active">commons</div>
+        <div class="pkg-name">substrate-bank</div>
+        <div class="pkg-desc">The coordination layer: targets, seed ledgers, QA/aggregation, signed
+          shards, and freeze&nbsp;&rarr;&nbsp;citable snapshot. The system that turns a bank into a
+          federated resource.</div>
+        <div class="pkg-tags"><span class="tag"><a href="https://github.com/Substrate-Commons" target="_blank">org &rarr;</a></span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <footer>
+    <div class="footer-left">
+      <div class="logo-name">substrate·commons</div>
+      <div class="logo-tag">one walk, every acquisition &mdash; forever</div>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/Substrate-Commons" target="_blank">GitHub org</a>
+      <a href="https://github.com/dmrai-lab/replay-pack-spec" target="_blank">.rpk spec</a>
+      <a href="https://dmipy.org" target="_blank">dmipy-sim</a>
+      <a href="https://dmrai.org" target="_blank">dmrai-lab</a>
+    </div>
+  </footer>
+
+  <script>
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
