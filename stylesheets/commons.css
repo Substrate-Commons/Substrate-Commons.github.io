@@ -105,11 +105,13 @@ body, .md-typeset { font-family: "Inter", system-ui, sans-serif; font-size: .82r
 .sc-hero .sc-eyebrow { font-family: "Inter"; font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--sc-green-d); font-weight: 600; }
 .sc-hero h1 { font-size: 2.9rem; margin: .35rem 0 .1rem; }
 
-/* ---- full-width pipeline diagram ---- */
-.sc-pipeline { margin: 1.5rem 0 .4rem; }
-.sc-pipeline svg { width: 100%; height: auto; display: block; }
-.sc-pipeline figcaption { font-size: .78rem; color: var(--sc-muted); margin-top: .8rem; line-height: 1.6; }
-.sc-pipeline figcaption b { color: var(--sc-ink); font-weight: 600; }
+/* ---- full-width pipeline diagram (framed panel; override the browser <figure> side margin) ---- */
+.md-typeset .sc-pipeline { width: 100%; max-width: 100%; margin: 1.6rem 0 1.2rem; padding: 1.2rem 1.4rem .7rem;
+  background: var(--sc-card); border: 1px solid var(--sc-border); border-radius: 16px; box-shadow: 0 1px 3px rgba(35,32,26,.05); }
+.md-typeset .sc-pipeline svg { width: 100%; height: auto; display: block; }
+.md-typeset .sc-pipeline figcaption { font-size: .76rem; color: var(--sc-muted); margin: .8rem 0 0; padding: 0;
+  text-align: left; line-height: 1.55; max-width: none; }
+.md-typeset .sc-pipeline figcaption b { color: var(--sc-ink); font-weight: 600; }
 
 /* ---- pills / call-to-action buttons ---- */
 .md-typeset .sc-cta { display: inline-flex; gap: .5rem; flex-wrap: wrap; margin-top: 1rem; }
