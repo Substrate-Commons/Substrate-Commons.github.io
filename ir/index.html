@@ -487,10 +487,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#the-pipeline" class="md-nav__link">
+  <a href="#an-intermediate-representation-like-a-compilers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The pipeline
+        An intermediate representation, like a compiler's
       
     </span>
   </a>
@@ -498,10 +498,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-a-bottleneck-helps" class="md-nav__link">
+  <a href="#not-a-trajectory-dump" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why a bottleneck helps
+        Not a trajectory dump
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-narrow-waist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The narrow waist
       
     </span>
   </a>
@@ -647,6 +658,34 @@
     
   
     Error bars that only fall
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commons/solved/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What it means to solve a substrate
   
 
     
@@ -914,54 +953,63 @@
 
 
 <h1 id="one-walk-every-acquisition">One walk, every acquisition</h1>
-<p>Producing a converged random walk through realistic microstructure is the expensive step. Evaluating a
-pulse sequence against a <em>stored</em> walk is nearly free. So the useful unit is not a signal — it is the
-<strong>walk itself</strong>. The replay pack (<code>.rpk</code>) is the lossless bottleneck between the two.</p>
-<p class="sc-lede">Everything upstream — which mesher, which simulator, how many spins — collapses into
-the pack. Everything downstream — which sequence, which field, which contrast — decodes out of it. <em>With
-no re-simulation, ever.</em></p>
+<h2 id="an-intermediate-representation-like-a-compilers">An intermediate representation, like a compiler's</h2>
+<p>A compiler never runs your C directly, and it never re-parses it for every optimisation. It <em>lowers</em> the
+source into an <strong>intermediate representation</strong> — LLVM IR — one well-specified middle form that every
+language front-end targets and every hardware back-end consumes. The front-ends and back-ends never have
+to know about each other; they only have to agree on the IR.</p>
+<p>The replay pack (<code>.rpk</code>) is exactly that, for Monte-Carlo diffusion simulation.</p>
+<table>
+<thead>
+<tr>
+<th>A compiler</th>
+<th>Substrate Commons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>source — C, Rust, Swift …</td>
+<td>a realistic substrate — a <code>.ply</code> mesh</td>
+</tr>
+<tr>
+<td>a front-end <strong>lowers</strong> it to <em>LLVM IR</em></td>
+<td>a generator <strong>lowers</strong> the walk to <em><code>.rpk</code></em></td>
+</tr>
+<tr>
+<td>back-ends <strong>consume</strong> the IR to emit machine code</td>
+<td>acquisitions <strong>consume</strong> <code>.rpk</code> to emit a signal</td>
+</tr>
+<tr>
+<td>add a language or a CPU — the IR is unchanged</td>
+<td>add a mesher or a sequence — <code>.rpk</code> is unchanged</td>
+</tr>
+</tbody>
+</table>
+<p class="sc-lede">Because everyone agrees on the middle form, a pack from dmipy-sim and a pack from MC-DC
+are the same kind of object — poolable, comparable, and readable by tools that have no idea how the walk
+was produced.</p>
 
-<h2 id="the-pipeline">The pipeline</h2>
-<div class="grid cards">
-<ul>
-<li>
-<p><strong>1 · Geometry in</strong></p>
-<hr />
-<p>An open mesh — <code>.ply</code> or equivalent. Because generated substrates are often not reproducible from a
-config, the exact geometry is archived alongside the pack as open binary PLY (<code>xz</code>-compressed), so a
-resume or a new shard walks <em>the same</em> substrate.</p>
-</li>
-<li>
-<p><strong>2 · Simulate</strong></p>
-<hr />
-<p>Any engine that speaks the format walks the geometry and records the physics: trajectories, boundary
-local-time, and the per-walker susceptibility field basis. Swap the engine freely — the <em>walk</em> is the
-artifact.</p>
-</li>
-<li>
-<p><strong>3 · Encode</strong></p>
-<hr />
-<p>Trajectories + boundary contact + field basis are frozen into <code>.rpk</code> in <a href="tiers/">capability tiers</a>.
-Losslessly: the replay reproduces the original simulation to the Monte-Carlo floor.</p>
-</li>
-<li>
-<p><strong>4 · Decode</strong></p>
-<hr />
-<p>Point any acquisition at the pack and read the signal back instantly. A pack walked for one study
-answers a different study's questions for free.</p>
-</li>
-</ul>
-</div>
-<h2 id="why-a-bottleneck-helps">Why a bottleneck helps</h2>
-<p>A bottleneck is usually a bad word. Here it's the whole point: by forcing every producer through <strong>one</strong>
-compact, well-specified representation, every consumer downstream is decoupled from how the walk was
-made. A pack from dmipy-sim and a pack from MC-DC are the same kind of thing, poolable and comparable.
-The format is the contract; the <a href="https://github.com/dmrai-lab/replay-pack-spec"><code>.rpk</code> spec</a> pins it.</p>
+<h2 id="not-a-trajectory-dump">Not a trajectory dump</h2>
+<p>Here is what makes it a real IR and not just a recording. The <code>.rpk</code> does <strong>not</strong> store walker positions
+that you replay step by step. The walk is <em>lowered</em> into a compact <strong>basis</strong> — a compressed representation
+of how each walker's phase and field evolve along its path. To get a signal you <strong>contract against that
+basis directly; the original trajectories are never reconstructed.</strong></p>
+<p>And within the pack's declared envelope, that contraction is <em>cheaper</em> than working from the raw walk.
+That's the whole trick — the IR is not a smaller copy of the simulation, it is a form that is <strong>faster to
+produce a signal from</strong> than the simulation ever was. It is the reason a <a href="../commons/solved/">solved</a>
+substrate evaluates at analytical-model speed while being a real mesh underneath.</p>
 <div class="admonition tip">
-<p class="admonition-title">In one sentence</p>
-<p>The <code>.rpk</code> is a <em>lossless intermediate representation of the Monte-Carlo process</em> — mesh in,
-trajectories through, every acquisition out.</p>
+<p class="admonition-title">In one line</p>
+<p><code>.rpk</code> is a lossless <em>intermediate representation</em> of the Monte-Carlo process — a compressed,
+signal-ready basis that every simulator lowers into and every acquisition reads out of, faster than the
+raw walk it came from.</p>
 </div>
+<h2 id="the-narrow-waist">The narrow waist</h2>
+<p>An IR earns its keep by being a <em>narrow waist</em>: many producers above, many consumers below, one stable
+contract in the middle (the shape you see in the diagram on the <a href="../">home page</a>). Add a new mesher
+or a new simulator on top, or a new sequence underneath, and nothing else has to change. The
+<a href="tiers/">capability tiers</a> say what a given pack's waist can carry; the <a href="invariant/">replay invariant</a>
+says why one walk can serve them all.</p>
 <p><a class="sc-btn sc-btn--ghost" href="tiers/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> The capability tiers</a>
 <a class="sc-btn sc-btn--ghost" href="invariant/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> The replay invariant</a></p>
 

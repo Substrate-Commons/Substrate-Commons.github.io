@@ -656,6 +656,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../../commons/solved/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What it means to solve a substrate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../commons/pooling/" class="md-nav__link">
         
   
@@ -964,11 +992,11 @@ the noise floor falls as 1/√ΣN. This is what turns a substrate into a <a href
 </ul>
 </div>
 <div class="admonition quote">
-<p class="admonition-title">Why it's lossless</p>
-<p>Replay isn't an approximation of the walk — it <em>is</em> the walk, re-weighted. The pack stores the
-trajectory the physics already computed; a decode just contracts it against your sequence. Fidelity is
-a build-time certificate: a raw-stored channel stays re-verifiable, and a compressed one must clear the
-substrate's own noise floor before it may ship.</p>
+<p class="admonition-title">Why it's lossless — and fast</p>
+<p>Replay isn't a re-simulation. The pack stores a <em>compressed basis</em> of the walk, and a decode contracts
+against that basis directly — without ever rebuilding the original trajectories, and faster than if it
+had to. Fidelity is a build-time certificate: within the declared envelope the decode reproduces the
+walk's signal to the Monte-Carlo floor, and any lossy channel must clear that floor before it may ship.</p>
 </div>
 
 
