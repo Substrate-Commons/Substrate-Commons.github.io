@@ -403,10 +403,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#an-open-resource-not-a-private-stash" class="md-nav__link">
+  <a href="#as-fast-as-analytical-as-real-as-a-mesh" class="md-nav__link">
     <span class="md-ellipsis">
       
-        An open resource, not a private stash
+        As fast as analytical. As real as a mesh.
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-four-moves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The four moves
       
     </span>
   </a>
@@ -900,100 +911,178 @@
 
 
 <div class="sc-hero">
-<div class="sc-copy">
-<p><span class="sc-eyebrow">Monte-Carlo, made permanent</span></p>
+<p><span class="sc-eyebrow">Realistic substrates, solved once</span></p>
 <h1 id="walk-once-replay-forever">Walk once. Replay forever.</h1>
-<p class="sc-lede">A substrate is a mesh. A simulator walks it. We freeze that walk into a compact
-<b>replay pack</b> — a <em>lossless bottleneck</em> of the Monte-Carlo process, from which <em>any</em>
-acquisition decodes instantly. And because walks add up, anyone can pitch in. Bring a mesh, take back
-every acquisition, give a few walkers — and keep the receipt forever.</p>
+<p class="sc-lede">A realistic substrate is a <b>mesh</b> — a <code>.ply</code> from CACTUS, DisCO, or your
+own builder. A compatible generator walks it <em>once</em>, and we freeze that walk into a <b>replay
+pack</b>: a lossless intermediate that decodes <em>any</em> acquisition instantly. The payoff — mesh
+substrates become as fast to evaluate as analytical sphere-and-cylinder models, with none of their
+acquisition-scheme limits, and the people who built the substrate get their name on a citable DOI.</p>
 <div class="sc-cta">
-<p><a class="sc-btn" href="https://github.com/dmrai-lab/replay-pack-spec">Read the .rpk spec</a>
-<a class="sc-btn sc-btn--ghost" href="ir/">How it works</a>
-<a class="sc-btn sc-btn--ghost" href="contributing/">Bring a machine</a></p>
+<p><a class="sc-btn" href="ir/">How it works</a>
+<a class="sc-btn sc-btn--ghost" href="contributing/">Bring a machine</a>
+<a class="sc-btn sc-btn--ghost" href="https://github.com/dmrai-lab/replay-pack-spec">Read the .rpk spec</a></p>
 </div>
 </div>
-<div class="sc-art">
-<p><svg viewBox="0 0 460 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Many inputs and simulators collapse into one .rpk, from which every acquisition decodes.">
+<figure class="sc-pipeline">
+<svg viewBox="0 0 960 262" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Substrate builders create a .ply; compatible generators walk it; the walk is frozen into a DOI-wrapped .rpk credited to the substrate author with a shard-contributor manifest; from it any acquisition decodes.">
   <defs>
     <linearGradient id="core" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#1f8a5b"/><stop offset="1" stop-color="#cf8a1e"/>
     </linearGradient>
   </defs>
-  <g stroke="#1f8a5b" stroke-opacity="0.5" fill="none" stroke-width="1.4">
-    <path d="M140 74 C 182 74, 182 172, 206 182"/>
-    <path d="M140 172 C 182 172, 186 178, 206 182"/>
-    <path d="M140 270 C 182 270, 182 192, 206 190"/>
+
+  <!-- stage headers -->
+  <g font-family="Inter, sans-serif" font-size="10.5" font-weight="600" fill="#16704a" letter-spacing=".02em">
+    <text x="88"  y="16" text-anchor="middle">① Substrate builders</text>
+    <text x="370" y="16" text-anchor="middle">② Generators</text>
+    <text x="577" y="16" text-anchor="middle">③ The record · DOI</text>
+    <text x="855" y="16" text-anchor="middle">④ Decode anything</text>
   </g>
-  <g stroke="#cf8a1e" stroke-opacity="0.55" fill="none" stroke-width="1.4">
-    <path d="M254 182 C 290 182, 290 56, 322 56"/>
-    <path d="M254 184 C 290 184, 290 118, 322 118"/>
-    <path d="M254 186 C 290 186, 290 180, 322 180"/>
-    <path d="M254 188 C 290 188, 290 242, 322 242"/>
-    <path d="M254 190 C 290 190, 290 304, 322 304"/>
+
+  <!-- flow lines -->
+  <g fill="none" stroke="#1f8a5b" stroke-opacity=".45" stroke-width="1.4">
+    <path d="M158 59 C 172 59, 170 99, 180 96"/>
+    <path d="M158 97 C 172 97, 174 99, 180 99"/>
+    <path d="M158 135 C 172 135, 170 102, 180 102"/>
+    <path d="M242 97 C 270 97, 274 82, 300 82"/>
+    <path d="M242 101 C 270 101, 274 124, 300 124"/>
+    <path d="M440 82 C 456 82, 456 98, 470 100"/>
+    <path d="M440 124 C 456 124, 456 104, 470 102"/>
   </g>
+  <g fill="none" stroke="#cf8a1e" stroke-opacity=".5" stroke-width="1.4">
+    <path d="M690 140 C 720 140, 720 57,  750 57"/>
+    <path d="M690 140 C 720 140, 720 91,  750 91"/>
+    <path d="M690 140 C 720 140, 720 125, 750 125"/>
+    <path d="M690 140 C 720 140, 720 159, 750 159"/>
+    <path d="M690 140 C 720 140, 720 193, 750 193"/>
+  </g>
+
+  <!-- ① builders -->
   <g font-family="Inter, sans-serif" font-size="11" fill="#23201a">
-    <g><rect x="8" y="58" width="132" height="32" rx="9" fill="#ffffff" stroke="#e7dfcd"/><text x="74" y="78" text-anchor="middle">geometry · .ply</text></g>
-    <g><rect x="8" y="156" width="132" height="32" rx="9" fill="#ffffff" stroke="#e7dfcd"/><text x="74" y="176" text-anchor="middle" fill="#16704a">dmipy-sim walk</text></g>
-    <g><rect x="8" y="254" width="132" height="32" rx="9" fill="#ffffff" stroke="#e7dfcd"/><text x="74" y="274" text-anchor="middle" fill="#16704a">MC-DC walk</text></g>
+    <g><rect x="18" y="44"  width="140" height="30" rx="9" fill="#fff" stroke="#e7dfcd"/><text x="88" y="63"  text-anchor="middle">CACTUS</text></g>
+    <g><rect x="18" y="82"  width="140" height="30" rx="9" fill="#fff" stroke="#e7dfcd"/><text x="88" y="101" text-anchor="middle">DisCO</text></g>
+    <g><rect x="18" y="120" width="140" height="30" rx="9" fill="#faf6ec" stroke="#e7dfcd" stroke-dasharray="3 3"/><text x="88" y="139" text-anchor="middle" fill="#6f695b">…any mesher</text></g>
   </g>
+
+  <!-- .ply node -->
+  <g><rect x="180" y="82" width="62" height="34" rx="9" fill="#f4efe2" stroke="#d9cfb6"/>
+     <text x="211" y="103" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#3a352b">.ply</text></g>
+
+  <!-- ② generators -->
+  <g font-family="Inter, sans-serif" font-size="11">
+    <g><rect x="300" y="66" width="140" height="32" rx="9" fill="#eaf6ef" stroke="#1f8a5b"/>
+       <text x="352" y="86" text-anchor="middle" fill="#16704a" font-weight="600">dmipy-sim</text>
+       <circle cx="420" cy="82" r="3" fill="#1f8a5b"/></g>
+    <g><rect x="300" y="108" width="140" height="32" rx="9" fill="#f4efe2" stroke="#c9c0ad" stroke-dasharray="3 3"/>
+       <text x="345" y="128" text-anchor="middle" fill="#9a927f" font-weight="500">MC-DC</text>
+       <text x="405" y="127" text-anchor="middle" font-family="Inter" font-size="7.5" fill="#b0a894">COMING</text>
+       <text x="405" y="135" text-anchor="middle" font-family="Inter" font-size="7.5" fill="#b0a894">SOON</text></g>
+  </g>
+
+  <!-- ③ the .rpk DOI record card (the centrepiece) -->
   <g>
-    <rect x="204" y="160" width="52" height="42" rx="21" fill="url(#core)"/>
-    <text x="230" y="186" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" fill="#ffffff">.rpk</text>
-    <text x="230" y="228" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#6f695b" letter-spacing="1.5">THE IR</text>
+    <rect x="470" y="34" width="220" height="212" rx="14" fill="#fffdf8" stroke="#e0d6bf" stroke-width="1.2"/>
+    <rect x="482" y="46" width="42" height="18" rx="9" fill="#cf8a1e"/>
+    <text x="503" y="59" text-anchor="middle" font-family="Inter" font-size="10" font-weight="700" fill="#fff">DOI</text>
+    <text x="532" y="59" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#9a927f">zenodo · minted</text>
+    <rect x="547" y="76" width="66" height="40" rx="20" fill="url(#core)"/>
+    <text x="580" y="101" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" font-weight="600" fill="#fff">.rpk</text>
+    <text x="580" y="132" text-anchor="middle" font-family="Inter" font-size="8.5" fill="#9a927f" letter-spacing="1">PAYLOAD</text>
+    <text x="484" y="156" font-family="Inter" font-size="9.5" fill="#6f695b">Substrate — single-bundle axons</text>
+    <text x="484" y="174" font-family="Inter" font-size="10.5" fill="#23201a" font-weight="600">Author · the substrate builder</text>
+    <line x1="484" y1="186" x2="676" y2="186" stroke="#e7dfcd"/>
+    <text x="484" y="202" font-family="Inter" font-size="9" fill="#6f695b">Manifest · shard contributors</text>
+    <g fill="#1f8a5b"><circle cx="488" cy="216" r="3.4"/><circle cx="500" cy="216" r="3.4"/><circle cx="512" cy="216" r="3.4"/><circle cx="524" cy="216" r="3.4"/><circle cx="536" cy="216" r="3.4"/><circle cx="548" cy="216" r="3.4"/></g>
+    <text x="560" y="219" font-family="Inter" font-size="9" fill="#9a927f">+ everyone who gave walkers</text>
   </g>
-  <g font-family="Inter, sans-serif" font-size="11" fill="#23201a">
-    <g><rect x="322" y="40" width="132" height="32" rx="9" fill="#ffffff" stroke="#e7dfcd"/><text x="388" y="60" text-anchor="middle">PGSE · OGSE · STE</text></g>
-    <g><rect x="322" y="102" width="132" height="32" rx="9" fill="#ffffff" stroke="#e7dfcd"/><text x="388" y="122" text-anchor="middle">any b, Δ, δ</text></g>
-    <g><rect x="322" y="164" width="132" height="32" rx="9" fill="#ffffff" stroke="#e7dfcd"/><text x="388" y="184" text-anchor="middle">any B₀ · χ</text></g>
-    <g><rect x="322" y="226" width="132" height="32" rx="9" fill="#ffffff" stroke="#e7dfcd"/><text x="388" y="246" text-anchor="middle">T₂ · T₁ · ρ</text></g>
-    <g><rect x="322" y="288" width="132" height="32" rx="9" fill="#ffffff" stroke="#e7dfcd"/><text x="388" y="308" text-anchor="middle">MT · Z-spectrum</text></g>
+
+  <!-- ④ decode -->
+  <g font-family="Inter, sans-serif" font-size="10.5" fill="#23201a">
+    <g><rect x="750" y="45" width="200" height="24" rx="8" fill="#fff" stroke="#e7dfcd"/><text x="850" y="61" text-anchor="middle">PGSE · OGSE · STE</text></g>
+    <g><rect x="750" y="79" width="200" height="24" rx="8" fill="#fdf4e2" stroke="#e2c184"/><text x="850" y="95" text-anchor="middle" fill="#8a5e12">real RF · B₁ pulses</text></g>
+    <g><rect x="750" y="113" width="200" height="24" rx="8" fill="#fff" stroke="#e7dfcd"/><text x="850" y="129" text-anchor="middle">any b, Δ, δ</text></g>
+    <g><rect x="750" y="147" width="200" height="24" rx="8" fill="#fff" stroke="#e7dfcd"/><text x="850" y="163" text-anchor="middle">any B₀ · χ</text></g>
+    <g><rect x="750" y="181" width="200" height="24" rx="8" fill="#fff" stroke="#e7dfcd"/><text x="850" y="197" text-anchor="middle">T₂ · T₁ · ρ · MT</text></g>
   </g>
-</svg></p>
-</div>
-</div>
+</svg>
+<figcaption markdown>**Fixed once, at walk time:** the geometry, the intrinsic diffusivity, and the permeability. Everything on the right is a **replay knob** — fire any gradient waveform or real RF/B₁ pulse, at any B₀ and susceptibility, and read the signal back. No short-gradient-pulse or Gaussian-phase approximation, ever.</figcaption>
+</figure>
+
 <hr />
-<h2 id="an-open-resource-not-a-private-stash">An open resource, not a private stash</h2>
-<p>Simulating realistic microstructure is expensive and everyone re-does it. The Commons flips that: do
-the walk <strong>once</strong>, share the frozen result, and let the whole field decode any measurement from it —
-for free, forever. Here's the whole idea in four moves.</p>
+<h2 id="as-fast-as-analytical-as-real-as-a-mesh">As fast as analytical. As real as a mesh.</h2>
+<p>Microstructure modelling has always faced a trade-off. <strong>Analytical models</strong> — signals for spheres and
+cylinders — are fast, but they idealise the geometry <em>and</em> lean on acquisition approximations (short-pulse,
+Gaussian-phase) that only hold for some sequences. <strong>Monte-Carlo on a realistic mesh</strong> is faithful to any
+sequence, but slow — too slow to sit inside a fit.</p>
+<p>The replay pack closes the gap. Pay the Monte-Carlo cost <strong>once</strong>, freeze the walk, and every later
+evaluation is a cheap contraction against the stored trajectories:</p>
+<div class="grid cards">
+<ul>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 16a3 3 0 0 1-3-3c0-1.12.61-2.1 1.5-2.61l9.71-5.62-5.53 9.58c-.5.98-1.51 1.65-2.68 1.65m0-13c1.81 0 3.5.5 4.97 1.32l-2.1 1.21C14 5.19 13 5 12 5a8 8 0 0 0-8 8c0 2.21.89 4.21 2.34 5.65h.01c.39.39.39 1.02 0 1.41s-1.03.39-1.42.01A9.97 9.97 0 0 1 2 13 10 10 0 0 1 12 3m10 10c0 2.76-1.12 5.26-2.93 7.07-.39.38-1.02.38-1.41-.01a.996.996 0 0 1 0-1.41A7.95 7.95 0 0 0 20 13c0-1-.19-2-.54-2.9L20.67 8C21.5 9.5 22 11.18 22 13"/></svg></span> <strong>Analytical-model speed</strong></p>
+<hr />
+<p>A decode is a matrix contraction, not a simulation. A solved substrate answers a fit's inner loop as
+fast as a closed-form sphere/cylinder expression — but the geometry underneath is a real mesh.</p>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m22 12-2 1-1 1-1-1-1 3-1-3-1 8-1-8-1 2-1-2-1 4-1-4-1 9-1-9-1 6-1-6-1 1-1-1-2-1 2-1 1-1 1 1 1-6 1 6 1-9 1 9 1-4 1 4 1-2 1 2 1-8 1 8 1-3 1 3 1-1 1 1z"/></svg></span> <strong>No acquisition limits</strong></p>
+<hr />
+<p>Because it replays the <em>actual</em> walk, there is no SGP, no Gaussian-phase, no fixed pulse shape. Arbitrary
+<code>G(t)</code>, real B₁ pulses, OGSE, STE — all exact to the Monte-Carlo floor.</p>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 1.9A2.1 2.1 0 0 0 12.9 8a2.1 2.1 0 0 0 2.1 2.1 2.1 2.1 0 1 0 0-4.2m0 7.1c2.67 0 8 1.33 8 4v3H7v-3c0-2.67 5.33-4 8-4m0 1.9c-3 0-6.1 1.46-6.1 2.1v1.1h12.2V17c0-.64-3.13-2.1-6.1-2.1M5 13.28l-2.5 1.49.68-2.81L1 10.08l2.87-.25L5 7.19l1.11 2.64 2.89.25-2.2 1.88.65 2.81z"/></svg></span> <strong>Builders get the credit</strong></p>
+<hr />
+<p>The substrate author is named on the pack's DOI; everyone who donated walkers is in its manifest. The
+Commons exists to make building a good substrate a <em>citable</em> contribution.</p>
+</li>
+<li>
+<p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m16 11.78 4.24-7.33 1.73 1-5.23 9.05-6.51-3.75L5.46 19H22v2H2V3h2v14.54L9.5 8z"/></svg></span> <strong>Error bars only fall</strong></p>
+<hr />
+<p>Shards are additive and commutative. Anyone can lower a substrate's noise floor from a laptop or a free
+GPU; nothing regresses, and a converged substrate is frozen and permanent.</p>
+</li>
+</ul>
+</div>
+<h2 id="the-four-moves">The four moves</h2>
 <div class="grid cards">
 <ul>
 <li>
 <p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44c-.16.12-.36.18-.57.18s-.41-.06-.57-.18l-7.9-4.44A.99.99 0 0 1 3 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.12.36-.18.57-.18s.41.06.57.18l7.9 4.44c.32.17.53.5.53.88zM12 4.15 6.04 7.5 12 10.85l5.96-3.35zM5 15.91l6 3.38v-6.71L5 9.21zm14 0v-6.7l-6 3.37v6.71z"/></svg></span> <strong>Bring a mesh</strong></p>
 <hr />
-<p>Any open geometry — a <code>.ply</code> of realistic axons, spheres, crossings. The substrate carries its own
+<p>Any open geometry — a <code>.ply</code> from CACTUS, DisCO, or your own builder. The substrate carries its own
 orientation frame, so gradients and B₀ are defined <em>relative to the fibre</em>.</p>
 <p><a href="ir/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> The IR</a></p>
 </li>
 <li>
 <p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m-2 14.5 6-4.5-6-4.5z"/></svg></span> <strong>Walk it once</strong></p>
 <hr />
-<p>A simulator — dmipy-sim, MC-DC, your own — walks the geometry and records trajectories, boundary
-contact, and the susceptibility field. The engine is interchangeable; the walk is what matters.</p>
+<p>A compatible generator — dmipy-sim today, MC-DC soon — walks the geometry and records trajectories,
+boundary contact, and the susceptibility field. Intrinsic diffusivity and permeability are fixed here.</p>
 <p><a href="ir/invariant/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> The replay invariant</a></p>
 </li>
 <li>
 <p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.6 6.62C21.58 6.62 24 9 24 12c0 2.96-2.42 5.37-5.4 5.37-1.45 0-2.8-.56-3.82-1.57L12 13.34l-2.83 2.51c-.97.97-2.33 1.53-3.77 1.53C2.42 17.38 0 14.96 0 12s2.42-5.38 5.4-5.38c1.44 0 2.8.56 3.82 1.58L12 10.66l2.83-2.51c.97-.97 2.33-1.53 3.77-1.53M7.8 14.39 10.5 12 7.84 9.65c-.68-.68-1.53-1.03-2.44-1.03C3.53 8.62 2 10.13 2 12s1.53 3.38 3.4 3.38c.91 0 1.76-.35 2.4-.99m8.4-4.78L13.5 12l2.66 2.35c.68.68 1.54 1.03 2.44 1.03 1.87 0 3.4-1.51 3.4-3.38s-1.53-3.38-3.4-3.38c-.91 0-1.76.35-2.4.99"/></svg></span> <strong>Decode anything</strong></p>
 <hr />
-<p>Point <em>any</em> acquisition at the pack — PGSE, OGSE, any b/Δ/δ, any B₀ and χ, T₁/T₂/ρ, MT — and read
-the signal back instantly. One walk answers questions it was never run for.</p>
+<p>Point <em>any</em> acquisition at the pack — PGSE, OGSE, real RF/B₁ pulses, any b/Δ/δ, any B₀ and χ, T₁/T₂/ρ,
+MT. One walk answers questions it was never run for.</p>
 <p><a href="ir/tiers/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> Capability tiers</a></p>
 </li>
 <li>
 <p><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m5 15-.6-.5C2.4 12.6 1 11.4 1 9.9c0-1.2 1-2.2 2.2-2.2.7 0 1.4.3 1.8.8.4-.5 1.1-.8 1.8-.8C8 7.7 9 8.6 9 9.9c0 1.5-1.4 2.7-3.4 4.6zM15 4a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 6.1A2.1 2.1 0 0 1 12.9 8 2.1 2.1 0 0 1 15 5.9a2.1 2.1 0 1 1 0 4.2m0 2.9c-2.67 0-8 1.33-8 4v3h16v-3c0-2.67-5.33-4-8-4m6.1 5.1H8.9V17c0-.64 3.1-2.1 6.1-2.1 2.97 0 6.1 1.46 6.1 2.1z"/></svg></span> <strong>Give a few walkers</strong></p>
 <hr />
-<p>Shards add up and never regress. Contribute from a laptop or a free GPU; sign your shard and you're
-credited by name on the solved substrate — a permanent receipt.</p>
+<p>Shards add up and never regress. Contribute from a laptop or a free GPU; sign your shard and you're in
+the manifest of the solved substrate — a permanent receipt.</p>
 <p><a href="contributing/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.22 19.03a.75.75 0 0 1 0-1.06L18.19 13H3.75a.75.75 0 0 1 0-1.5h14.44l-4.97-4.97a.749.749 0 0 1 .326-1.275.75.75 0 0 1 .734.215l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0"/></svg></span> Contributing</a></p>
 </li>
 </ul>
 </div>
 <div class="admonition quote">
 <p class="admonition-title">The mission</p>
-<p><strong>Substrate Commons</strong> is a separate thing from the tools that feed it. The engines are edgy,
-optimised, AI-maintained. The Commons is the opposite: slow, permanent, and <em>open</em> — a shared field
-anyone can walk into, add to, and take from. Here you have it, friend.</p>
+<p><strong>Substrate Commons</strong> is a separate thing from the tools that feed it. The engines are edgy, optimised,
+AI-maintained. The Commons is the opposite: slow, permanent, and <em>open</em> — a shared field anyone can walk
+into, add to, and take from. Here you have it, friend.</p>
 </div>
 
 
