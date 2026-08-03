@@ -905,14 +905,46 @@
 <h1 id="the-replay-invariant">The replay invariant</h1>
 <p>The reason one walk can answer every acquisition is a single physical fact about how the walk is built.</p>
 <p class="sc-lede">Walker positions <em>r(t)</em> and boundary events depend only on the geometry, the
-diffusivity, and the seed — <em>not</em> on the gradient waveform, T₂, T₁, ρ, or the susceptibility
-orientation.</p>
+intrinsic diffusivity, the permeability, and the seed — <em>not</em> on the gradient waveform, the RF
+pulses, T₂, T₁, ρ, or the susceptibility orientation.</p>
 
-<p>Those latter quantities only gate the phase and the per-walker weight. So they are <strong>replay knobs</strong>: you
-walk once, then evaluate any number of sequences, fields, and contrasts against the stored trajectory.</p>
-<div class="highlight"><pre><span></span><code>walk(geometry, diffusivity, seed)  →  r(t), boundary contact          # done once, expensive
-replay(r(t),  G(t), B₀, χ, T₂, T₁, ρ, …)  →  signal                    # done many times, cheap
+<p>Those latter quantities only gate the phase and the per-walker weight. So they split cleanly into two
+groups: what the walk <strong>fixes</strong>, and what it leaves as a <strong>replay knob</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Fixed at walk time (the substrate)</th>
+<th>A replay knob (the acquisition)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>geometry (the mesh)</td>
+<td>gradient waveform <code>G(t)</code> — PGSE, OGSE, STE, arbitrary</td>
+</tr>
+<tr>
+<td>intrinsic diffusivity</td>
+<td>real RF / B₁ pulses (refocusing, saturation)</td>
+</tr>
+<tr>
+<td>permeability (membrane crossing)</td>
+<td>B₀ and susceptibility χ, any orientation</td>
+</tr>
+<tr>
+<td>the random seed</td>
+<td>T₂, T₁, surface relaxivity ρ, MT</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>walk(geometry, intrinsic-D, permeability, seed)  →  r(t), boundary contact   # once, expensive
+replay(r(t),  G(t), RF, B₀, χ, T₂, T₁, ρ, …)     →  signal                   # many times, cheap
 </code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Why intrinsic D and permeability are fixed</p>
+<p>They shape <em>where the walkers go</em> — the diffusion distance per step, and whether a walker crosses a
+membrane. Change them and you have a different walk. Everything that only affects <em>phase</em> (gradients,
+RF, fields, relaxation) can be applied afterwards, so those are free to sweep at replay.</p>
+</div>
 <h2 id="two-consequences-that-make-the-commons-possible">Two consequences that make the Commons possible</h2>
 <div class="grid cards">
 <ul>
